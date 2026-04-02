@@ -1,0 +1,646 @@
+﻿/* =============================================
+   CHEF SEARCH – CookSup  |  Dark navy, indigo accents
+   ============================================= */
+
+.chef-search-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #0f172a;
+  color: #94a3b8;
+  position: relative;
+  overflow: hidden;
+}
+
+.chef-search-container::before,
+.chef-search-container::after {
+  content: '';
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chef-search-container::before {
+  top: 180px;
+  left: -180px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0) 72%);
+}
+
+.chef-search-container::after {
+  bottom: 80px;
+  right: -160px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.14) 0%, rgba(56, 189, 248, 0) 72%);
+}
+
+/* ==========================================
+   SEARCH HERO BANNER
+   ========================================== */
+.search-hero {
+  position: relative;
+  background: linear-gradient(135deg, #111827 0%, #1e1b4b 50%, #111827 100%);
+  padding: 3.5rem 2rem 4.5rem;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Soft ambient orbs — no animation */
+.search-hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+.search-hero-glow-1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%);
+  top: -130px; left: -80px;
+}
+.search-hero-glow-2 {
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, rgba(99,102,241,0.1), transparent 70%);
+  bottom: -90px; right: -60px;
+}
+
+.search-hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-hero-badge {
+  display: inline-block;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.3);
+  color: #a5b4fc;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  margin-bottom: 1.1rem;
+}
+
+.search-hero h1 {
+  font-family: 'Prata', serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.search-hero p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+
+.search-hero-bottom {
+  bottom: 0; left: 0; right: 0;
+  height: 70px;
+  background: linear-gradient(to bottom, transparent, #0f172a);
+  position: absolute;
+  z-index: 2;
+}
+
+/* ==========================================
+   TOOLBAR
+   ========================================== */
+.discover-toolbar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: -1.5rem 0 1.5rem;
+  position: relative;
+  z-index: 10;
+  padding: 0 1.5rem;
+}
+
+.discover-toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  width: min(100%, 580px);
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.toolbar-field {
+  padding: 0.7rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #334155;
+}
+.toolbar-field:last-child { border-right: none; }
+
+.toolbar-field label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.toolbar-field input,
+.toolbar-field select {
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  font-family: inherit;
+}
+.toolbar-field input::placeholder { color: #475569; }
+.toolbar-field input:focus,
+.toolbar-field select:focus { outline: none; }
+.toolbar-field select option { background: #1e293b; color: #f1f5f9; }
+
+/* ==========================================
+   FILTER ROW
+   ========================================== */
+.search-filters-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  border-top: 1px solid #1e293b;
+  border-bottom: 1px solid #1e293b;
+  margin-bottom: 1.75rem;
+  background: #111827;
+  position: relative;
+  z-index: 1;
+}
+
+.left-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Shared pill base */
+.pill-select,
+.pill-input,
+.search-icon-btn,
+.tag-pill {
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #f1f5f9;
+  font-weight: 600;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.pill-select {
+  min-width: 165px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8' opacity='0.8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+.pill-select option { background: #1e293b; }
+
+.pill-input {
+  width: 160px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+}
+.pill-input::placeholder { color: #475569; }
+
+.pill-select:focus,
+.pill-input:focus {
+  outline: none;
+  border-color: rgba(99,102,241,0.55);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
+}
+
+.search-icon-btn {
+  min-width: 110px;
+  padding: 0 1.2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.32);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.search-icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99,102,241,0.48);
+}
+
+.search-icon { font-size: 1.1rem; line-height: 1; }
+.search-text  { font-weight: 700; letter-spacing: 0.02em; }
+
+.quick-tags {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag-pill {
+  padding: 0 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+.tag-pill:hover {
+  border-color: rgba(99,102,241,0.5);
+  color: #a5b4fc;
+  background: rgba(99,102,241,0.08);
+  transform: translateY(-1px);
+}
+
+/* ==========================================
+   LOADING / NO RESULTS
+   ========================================== */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #94a3b8;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.loading::after {
+  content: '';
+  display: block;
+  width: 30px; height: 30px;
+  border: 2px solid #334155;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  margin: 1rem auto 0;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  font-size: 1rem;
+}
+
+/* ==========================================
+   CHEFS GRID
+   ========================================== */
+.chefs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
+  perspective: 1200px;
+}
+
+/* ==========================================
+   CHEF CARD
+   ========================================== */
+.chef-card {
+  --card-rotate-x: 0deg;
+  --card-rotate-y: 0deg;
+  --card-lift: 0px;
+  --card-scale: 1;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  background: rgba(30, 41, 59, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.36);
+  transition: transform 0.18s linear, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transform-style: preserve-3d;
+  transform: perspective(1400px)
+    rotateX(var(--card-rotate-x))
+    rotateY(var(--card-rotate-y))
+    translateY(var(--card-lift))
+    scale(var(--card-scale));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  position: relative;
+  isolation: isolate;
+  will-change: transform;
+}
+.chef-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(
+    360px circle at var(--pointer-x) var(--pointer-y),
+    rgba(129, 140, 248, 0.22),
+    rgba(129, 140, 248, 0)
+  );
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.chef-card::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  border-radius: inherit;
+  box-shadow: 0 28px 56px rgba(2, 6, 23, 0.45);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.chef-card:hover {
+  --card-lift: -14px;
+  --card-scale: 1.02;
+  border-color: rgba(129, 140, 248, 0.6);
+  box-shadow: 0 24px 50px rgba(2, 6, 23, 0.55);
+}
+.chef-card:hover::before,
+.chef-card:hover::after,
+.chef-card:focus-visible::before,
+.chef-card:focus-visible::after {
+  opacity: 1;
+}
+
+/* Cover image area */
+.chef-cover {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%);
+  position: relative;
+  transform: translateZ(22px);
+  transition: transform 0.22s ease;
+}
+.chef-cover.has-cover {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Badges on cover */
+.chef-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 0.4rem;
+  transform: translateZ(38px);
+}
+.chef-badge {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: #f1f5f9;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 8px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* Avatar */
+.chef-avatar-wrap {
+  margin-top: -50px;
+  align-self: flex-end;
+  margin-right: 1.1rem;
+  z-index: 2;
+  position: relative;
+  transform: translateZ(42px);
+  transition: transform 0.22s ease;
+}
+.chef-avatar {
+  width: 100px; height: 100px;
+  border-radius: 999px;
+  border: 4px solid #1e293b;
+  box-shadow: 0 0 0 2px #334155;
+  object-fit: cover;
+  background: #0f172a;
+}
+.placeholder-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+}
+
+/* Info section */
+.chef-info {
+  padding: 0.85rem 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  transform: translateZ(24px);
+  transition: transform 0.22s ease;
+  position: relative;
+  z-index: 1;
+}
+.chef-card:hover .chef-cover,
+.chef-card:focus-visible .chef-cover {
+  transform: translateZ(38px) scale(1.02);
+}
+
+.chef-card:hover .chef-avatar-wrap,
+.chef-card:focus-visible .chef-avatar-wrap {
+  transform: translateZ(72px) translateY(-4px);
+}
+
+.chef-card:hover .chef-info,
+.chef-card:focus-visible .chef-info {
+  transform: translateZ(36px);
+}
+.chef-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.chef-info h3 {
+  margin: 0;
+  color: #f1f5f9;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-shadow: 0 8px 20px rgba(15, 23, 42, 0.4);
+}
+.chef-rating {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.chef-summary {
+  margin: 0.55rem 0 0.35rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  font-weight: 500;
+}
+.chef-bio {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  min-height: 2.6em;
+}
+.chef-events {
+  margin: 0.9rem 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.chef-points {
+  margin: 0.35rem 0 0;
+  color: #a5b4fc;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 768px) {
+  .search-hero h1 { font-size: 2rem; }
+  .search-hero    { padding: 2.5rem 1.25rem 3.5rem; }
+
+  .discover-toolbar {
+    grid-template-columns: 1fr;
+    border-radius: 18px;
+  }
+  .toolbar-field {
+    border-right: none;
+    border-bottom: 1px solid #334155;
+  }
+  .toolbar-field:last-child { border-bottom: none; }
+
+  .search-filters-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem 1rem;
+  }
+  .left-filters { width: 100%; }
+  .pill-select, .pill-input { flex: 1; min-width: 0; }
+
+  .chefs-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem 2rem;
+  }
+  .chef-info h3 { font-size: 1.35rem; }
+}
+
+/* ===== Compact Density Layer ===== */
+.search-hero {
+  padding: 2.6rem 1.5rem 3.3rem;
+}
+
+.search-hero h1 {
+  font-size: 2.25rem;
+}
+
+.discover-toolbar-wrap {
+  margin: -1.1rem 0 1.1rem;
+}
+
+.discover-toolbar {
+  width: min(100%, 540px);
+}
+
+.toolbar-field {
+  padding: 0.6rem 0.95rem;
+}
+
+.search-filters-row {
+  padding: 0.75rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.chefs-grid {
+  gap: 1.15rem;
+  padding: 0 1.1rem 2.4rem;
+}
+
+.chef-card {
+  border-radius: 18px;
+}
+
+.chef-cover {
+  height: 190px;
+}
+
+.chef-avatar-wrap {
+  margin-top: -42px;
+}
+
+.chef-avatar {
+  width: 88px;
+  height: 88px;
+}
+
+.chef-info {
+  padding: 0.8rem 1rem 1.1rem;
+}
+
+.chef-info h3 {
+  font-size: 1.4rem;
+}
+
+.chef-summary,
+.chef-bio,
+.chef-events,
+.chef-points,
+.chef-rating {
+  font-size: 0.86rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chef-card,
+  .chef-cover,
+  .chef-avatar-wrap,
+  .chef-info {
+    transition: none;
+    transform: none;
+  }
+
+  .chef-card:hover {
+    --card-lift: 0px;
+    --card-scale: 1;
+  }
+}
+

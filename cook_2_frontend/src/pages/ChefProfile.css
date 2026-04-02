@@ -1,0 +1,621 @@
+.chef-profile-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: #f7f8fc;
+  min-height: calc(100vh - 80px);
+}
+
+.chef-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 1.15rem;
+  align-items: start;
+}
+
+.chef-profile-main {
+  display: grid;
+  gap: 1rem;
+}
+
+.chef-summary-card,
+.chef-about-card,
+.reviews-card,
+.chef-contact-card {
+  background: #ffffff;
+  border: 1px solid #dde2ea;
+  border-radius: 18px;
+}
+
+.chef-summary-card {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+
+.chef-summary-avatar-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chef-summary-avatar {
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.chef-summary-avatar-placeholder {
+  border: 1px solid #d5dbe6;
+  background: #eef1f7;
+  color: #384455;
+  font-size: 2.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chef-summary-content h1 {
+  margin: 0;
+  color: #23263b;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.02;
+}
+
+.chef-summary-top-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.chef-summary-headline {
+  margin: 0.5rem 0 0;
+  color: #4f5a6f;
+  font-size: 1.04rem;
+}
+
+.chef-summary-rating {
+  margin: 0.4rem 0 0;
+  color: #50586e;
+  text-decoration: underline;
+  font-size: 1.05rem;
+}
+
+.chef-summary-meta {
+  margin-top: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.chef-summary-meta p {
+  margin: 0;
+  color: #242741;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.chef-owner-actions {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.primary-btn,
+.ghost-btn,
+.message-btn,
+.submit-btn {
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.primary-btn {
+  background: #fd5b3d;
+  color: #ffffff;
+  padding: 0.65rem 1rem;
+}
+
+.ghost-btn {
+  background: #eef2f8;
+  color: #2f3a4d;
+  padding: 0.65rem 1rem;
+}
+
+.chef-about-card,
+.reviews-card {
+  padding: 1.5rem;
+}
+
+.chef-about-card h2,
+.reviews-card h2 {
+  margin: 0;
+  color: #232741;
+  font-size: 2rem;
+}
+
+.chef-about-text {
+  margin: 0.8rem 0 0;
+  color: #31384d;
+  line-height: 1.45;
+  font-size: 1.1rem;
+}
+
+.link-btn {
+  border: none;
+  background: transparent;
+  color: #fa5a3f;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 1.02rem;
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+.chef-tags {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.chef-tag {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: #f0ece7;
+  color: #3d4254;
+  font-weight: 600;
+}
+
+.edit-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  color: #394155;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea,
+.contact-field input {
+  border: 1px solid #cfd6e2;
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  font: inherit;
+  color: #22263b;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.checkbox-row {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #2d3549;
+}
+
+.save-message {
+  margin: 0.85rem 0 0;
+  font-weight: 600;
+}
+
+.save-message.error {
+  color: #b42318;
+}
+
+.save-message.success {
+  color: #067647;
+}
+
+.reviews-list {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.review-item {
+  border-top: 1px solid #eceff5;
+  padding-top: 1rem;
+}
+
+.review-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.review-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.review-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.review-author {
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.review-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.review-stars {
+  color: #f59e0b;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.review-score {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.review-body {
+  margin: 0;
+  color: #374151;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.review-response {
+  margin-top: 0.5rem;
+  background: #f0f4f8;
+  border-left: 3px solid #4f46e5;
+  border-radius: 0 6px 6px 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.82rem;
+  color: #374151;
+}
+
+.review-item p,
+.no-reviews {
+  margin: 0.35rem 0 0;
+  color: #545c71;
+}
+
+.chef-contact-card {
+  padding: 1.35rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 1rem;
+}
+
+.booking-chip {
+  background: #c8b9ef;
+  color: #2f2f57;
+  border-radius: 6px;
+  padding: 0.25rem 0.55rem;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.chef-contact-card h3 {
+  margin: 0.85rem 0 1rem;
+  color: #232741;
+  font-size: 2rem;
+  line-height: 1.13;
+}
+
+.contact-field {
+  margin-bottom: 1rem;
+}
+
+.contact-field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #444d61;
+}
+
+.contact-field input {
+  width: 100%;
+}
+
+.message-btn {
+  width: 100%;
+  background: #fd5b3d;
+  color: #ffffff;
+  padding: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.booking-note {
+  margin: 0.6rem 0 0;
+  text-align: center;
+  color: #50586d;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(12, 18, 31, 0.62);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.9rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  margin: 0 0 1rem;
+  color: #1f2937;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.submit-btn {
+  background: #fd5b3d;
+  color: #ffffff;
+  padding: 0.8rem;
+}
+
+.submit-btn:disabled,
+.primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #5e6577;
+}
+
+@media (max-width: 1100px) {
+  .chef-profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .chef-contact-card {
+    position: static;
+  }
+}
+
+@media (max-width: 860px) {
+  .chef-summary-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .chef-summary-top-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chef-summary-meta {
+    justify-items: center;
+  }
+
+  .chef-owner-actions {
+    justify-content: center;
+  }
+
+  .edit-grid,
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Unified UI Layer (Non-Home Pages) ===== */
+.chef-profile-page {
+  background: #0f172a;
+  color: #94a3b8;
+}
+
+.chef-summary-card,
+.chef-about-card,
+.reviews-card,
+.chef-contact-card,
+.modal-content {
+  background: rgba(30, 41, 59, 0.86);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 14px 32px rgba(2, 6, 23, 0.35);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.chef-summary-content h1,
+.chef-about-card h2,
+.reviews-card h2,
+.chef-contact-card h3,
+.modal-content h2,
+.chef-summary-meta p,
+.chef-summary-rating,
+.review-author,
+.review-score {
+  color: #f1f5f9;
+}
+
+.chef-summary-headline,
+.chef-about-text,
+.review-body,
+.review-date,
+.booking-note,
+.review-item p,
+.no-reviews,
+.contact-field label,
+.form-group label,
+.save-message {
+  color: #94a3b8;
+}
+
+.chef-summary-avatar-placeholder,
+.review-response,
+.chef-tag {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+.form-group input,
+.form-group textarea,
+.contact-field input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.contact-field input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
+}
+
+.primary-btn,
+.message-btn,
+.submit-btn {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+}
+
+.ghost-btn {
+  background: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+}
+
+/* ===== Compact Density Layer ===== */
+.chef-profile-page {
+  padding: 1rem;
+}
+
+.chef-profile-layout {
+  gap: 0.9rem;
+}
+
+.chef-summary-card {
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.15rem;
+}
+
+.chef-summary-avatar,
+.chef-summary-avatar-placeholder {
+  width: 152px;
+  height: 152px;
+}
+
+.chef-summary-content h1 {
+  font-size: clamp(1.7rem, 2.5vw, 2.5rem);
+}
+
+.chef-summary-headline,
+.chef-summary-rating,
+.chef-summary-meta p,
+.chef-about-text,
+.review-body,
+.booking-note {
+  font-size: 0.96rem;
+}
+
+.chef-about-card,
+.reviews-card,
+.chef-contact-card,
+.modal-content {
+  padding: 1.15rem;
+}
+
+.chef-about-card h2,
+.reviews-card h2,
+.chef-contact-card h3 {
+  font-size: 1.65rem;
+}
+
+.chef-tag {
+  padding: 0.42rem 0.78rem;
+  font-size: 0.88rem;
+}
+
+.primary-btn,
+.ghost-btn,
+.message-btn,
+.submit-btn {
+  font-size: 0.92rem;
+  padding: 0.72rem 0.95rem;
+}
+
+
