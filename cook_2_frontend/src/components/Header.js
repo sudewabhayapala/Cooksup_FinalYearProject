@@ -18,7 +18,7 @@ const Header = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click 1
   useEffect(() => {
     const handler = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
