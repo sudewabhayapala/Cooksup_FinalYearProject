@@ -18,8 +18,6 @@ const ChefSearch = () => {
   const [guestCount, setGuestCount] = useState('');
 
   const quickTags = [
-    'Chefs near me',
-    'Super Chefs',
     'Italian',
     'Indian',
     'British',
@@ -272,8 +270,6 @@ const ChefSearch = () => {
 
                 <p className="chef-summary">{chef.current_workplace || `${chef.specialty || 'Private chef'} specialist`}</p>
                 <p className="chef-bio">{formatChefBio(chef.bio)}</p>
-
-                <p className="chef-events">👥 {chef.total_bookings || chef.booking_count || 0} yhungry events</p>
                 <p className="chef-points">Top points: {Number(chef.ranking_points || 0).toFixed(0)}</p>
               </div>
 
