@@ -13,11 +13,17 @@ export const AuthProvider = ({ children }) => {
       return null;
     }
   });
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(() => {
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
+    }
+    return savedToken;
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Set default authorization header
+  // Set default authorization header when token changes
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -99,7 +105,10 @@ export const AuthProvider = ({ children }) => {
       return response.data;
     } catch (err) {
       console.error('Error fetching current user:', err);
-      logout();
+      // Only logout on authentication errors (401), not on other errors like network issues
+      if (err.response?.status === 401) {
+        logout();
+      }
       throw err;
     }
   }, [logout]);

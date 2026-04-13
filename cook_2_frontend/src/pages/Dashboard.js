@@ -42,6 +42,7 @@ const ChefDashboard = () => {
         chefAPI.getDashboardStats(),
         bookingAPI.getMyBookings()
       ]);
+      console.log('Dashboard stats:', statsRes.data);
       setStats(statsRes.data);
       setBookings(bookingsRes.data?.bookings || []);
     } catch (error) {
@@ -112,7 +113,7 @@ const ChefDashboard = () => {
             <div className="stat-icon-wrap">⭐</div>
             <div className="stat-info">
               <span className="stat-label">Rating</span>
-              <span className="stat-value">{stats?.rating?.toFixed(1) || 0}</span>
+              <span className="stat-value">{stats?.avg_rating ? parseFloat(stats.avg_rating).toFixed(1) : '0.0'}</span>
             </div>
           </div>
 
@@ -128,7 +129,7 @@ const ChefDashboard = () => {
             <div className="stat-icon-wrap">📅</div>
             <div className="stat-info">
               <span className="stat-label">Pending Bookings</span>
-              <span className="stat-value">{stats?.pendingBookings || 0}</span>
+              <span className="stat-value">{stats?.pending_bookings || 0}</span>
             </div>
           </div>
 
