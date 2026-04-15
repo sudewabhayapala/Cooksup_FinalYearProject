@@ -4,6 +4,11 @@ import { useAuth } from '../context/AuthContext';
 import { toImageUrl } from '../utils/imageUrl';
 import './Profile.css';
 
+// Profile page allows users to view and update their account data.
+// Customers can edit contact information.
+// Chefs can also manage their profile, availability, pricing, and upload profile/cover images.
+
+
 const API_URL = 'http://localhost:5000/api';
 
 const Profile = () => {

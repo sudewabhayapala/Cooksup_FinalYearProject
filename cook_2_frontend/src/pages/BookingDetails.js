@@ -4,6 +4,11 @@ import { bookingAPI, reviewAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './BookingDetails.css';
 
+// BookingDetails displays the full booking record for the logged-in user.
+// Customers can review booking status, payment state, special requests, and leave feedback.
+// It fetches booking details from the backend and optionally allows review submission.
+
+
 const StarPicker = ({ value, onChange }) => (
   <div className="star-picker">
     {[1, 2, 3, 4, 5].map((star) => (
@@ -43,6 +48,7 @@ const BookingDetails = () => {
   const [comment, setComment] = useState('');
 
   useEffect(() => {
+    // Load booking details once when the page mounts or the bookingId changes.
     const fetchBooking = async () => {
       try {
         setLoading(true);

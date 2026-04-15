@@ -112,7 +112,7 @@ const seedData = async () => {
 
     console.log('✅ Menus created');
 
-    // Create bookings
+    // Create sample bookings in different states
     console.log('Creating bookings...');
     const today = new Date();
     const futureDate1 = new Date(today);
@@ -157,7 +157,7 @@ const seedData = async () => {
 
     console.log('✅ Bookings created');
 
-    // Create reviews
+    // Create sample reviews for completed bookings
     console.log('Creating reviews...');
     await db.query(`
       INSERT INTO reviews (booking_id, customer_id, chef_id, rating, food_quality, 
@@ -171,7 +171,7 @@ const seedData = async () => {
 
     console.log('✅ Reviews created');
 
-    // Update chef ratings
+    // Update chef average ratings based on reviews
     await db.query(`
       UPDATE chef_profiles 
       SET average_rating = (

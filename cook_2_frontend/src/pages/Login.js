@@ -3,6 +3,11 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
+// Login page for returning users.
+// It supports normal sign-in and password reset with a token.
+// After successful login, the user is redirected to the appropriate dashboard.
+
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

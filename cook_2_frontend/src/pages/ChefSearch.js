@@ -4,6 +4,11 @@ import { chefAPI } from '../services/api';
 import { toImageUrl } from '../utils/imageUrl';
 import './ChefSearch.css';
 
+// Chef search page allows customers to browse and filter available chefs.
+// It calls the backend search endpoint with location, cuisine, rating, and guest count filters.
+// Each chef card links to the chef profile page for booking details.
+
+
 const ChefSearch = () => {
   const [chefs, setChefs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +28,7 @@ const ChefSearch = () => {
     'British',
     'BBQ'
   ];
-
+//search chefs with filters
   const fetchChefs = useCallback(async () => {
     setLoading(true);
     try {

@@ -21,13 +21,16 @@ router.post('/', auth, isCustomer, async (req, res) => {
       budget
     } = req.body;
 
+    // Resolve guest count and total price from aliases
     const resolvedGuestCount = guestCount ?? numGuests;
     const resolvedTotalPrice = totalPrice ?? budget;
 
+    // Validate required fields
     if (!chefId || !eventDate || !eventTime || !resolvedGuestCount || !eventLocation || !resolvedTotalPrice) {
       return res.status(400).json({ error: 'Missing required fields: chefId, eventDate, eventTime, guestCount, eventLocation, totalPrice' });
     }
 
+    // Create booking in database
     const bookingId = await Booking.create({
       customerId: req.user.id,
       chefId,
@@ -66,7 +69,7 @@ router.get('/my-bookings', auth, async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
-    
+
     if (!booking) {
       return res.status(404).json({ error: 'Booking not found' });
     }
@@ -88,6 +91,7 @@ router.put('/:id/status', auth, isChef, async (req, res) => {
   try {
     const { status } = req.body;
 
+    // Validate status
     if (!['pending', 'confirmed', 'in_progress', 'completed', 'cancelled'].includes(status)) {
       return res.status(400).json({ error: 'Invalid status' });
     }

@@ -3,6 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
+// Registration page for new users.
+// This form supports both customer and chef account creation.
+// Customer accounts are for booking chefs, while chef accounts enable profile creation and booking management.
+
+
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',

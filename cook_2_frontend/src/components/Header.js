@@ -3,6 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
+// Header renders navigation across the site.
+// It supports desktop links, mobile hamburger menu, and account dropdown for logged-in users.
+// The header also reacts to scroll state and route changes for better UX.
+
+
 const Header = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();

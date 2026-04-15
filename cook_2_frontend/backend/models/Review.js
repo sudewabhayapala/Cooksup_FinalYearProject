@@ -1,9 +1,11 @@
 const db = require('../config/database');
 
+// Review model class for managing customer reviews and ratings
 class Review {
+  // Create a new review for a completed booking
   static async create(reviewData) {
     const sql = `
-      INSERT INTO reviews (booking_id, customer_id, chef_id, rating, 
+      INSERT INTO reviews (booking_id, customer_id, chef_id, rating,
         food_quality, professionalism, value_for_money, comment, images)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -21,9 +23,10 @@ class Review {
     return result.insertId;
   }
 
+  // Find all reviews for a specific chef with pagination
   static async findByChefId(chefId, limit = 20, offset = 0) {
     const sql = `
-      SELECT r.*, 
+      SELECT r.*,
         u.first_name as customer_first_name, u.last_name as customer_last_name,
         b.event_date, b.event_type
       FROM reviews r
@@ -36,9 +39,10 @@ class Review {
     return await db.query(sql, [chefId, limit, offset]);
   }
 
+  // Get rating summary statistics for a chef
   static async getRatingSummary(chefId) {
     const sql = `
-      SELECT 
+      SELECT
         COUNT(*) as total_reviews,
         COALESCE(AVG(rating), 0) as average_rating,
         COALESCE(AVG(food_quality), 0) as avg_food_quality,
@@ -56,12 +60,14 @@ class Review {
     return results[0];
   }
 
+  // Check if a review already exists for a booking
   static async checkIfReviewExists(bookingId) {
     const sql = 'SELECT id FROM reviews WHERE booking_id = ?';
     const results = await db.query(sql, [bookingId]);
     return results.length > 0;
   }
 
+  // Get recent reviews with customer and chef names (for homepage display)
   static async findRecent(limit = 6) {
     const sql = `
       SELECT r.id, r.rating, r.comment, r.created_at,
@@ -77,9 +83,10 @@ class Review {
     return await db.query(sql, [limit]);
   }
 
+  // Find review by booking ID
   static async findByBookingId(bookingId) {
     const sql = `
-      SELECT r.*, 
+      SELECT r.*,
         u.first_name as customer_first_name, u.last_name as customer_last_name
       FROM reviews r
       JOIN users u ON r.customer_id = u.id
@@ -89,6 +96,7 @@ class Review {
     return results[0] || null;
   }
 
+  // Add a response from the chef to a review
   static async addResponse(reviewId, chefId, response) {
     const sql = 'UPDATE reviews SET response = ? WHERE id = ? AND chef_id = ?';
     await db.query(sql, [response, reviewId, chefId]);

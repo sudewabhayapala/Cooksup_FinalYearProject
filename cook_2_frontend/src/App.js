@@ -13,6 +13,14 @@ import Payment from './pages/Payment';
 import BookingDetails from './pages/BookingDetails';
 import './App.css';
 
+// Main application routing for CookSup frontend.
+// This file defines public pages, protected routes, and role-based dashboard access.
+// ProtectedRoute ensures only authenticated users can access customer/chef pages.
+// RoleProtectedRoute additionally checks whether the user is a chef or customer.
+// DashboardRedirect sends the user to the correct dashboard based on their role.
+
+
+// Protected route component that requires authentication
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) {
@@ -21,6 +29,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+// Role-protected route that checks user type
 const RoleProtectedRoute = ({ allowedRoles, children }) => {
   const { isAuthenticated, user } = useAuth();
 
@@ -40,6 +49,7 @@ const RoleProtectedRoute = ({ allowedRoles, children }) => {
   return children;
 };
 
+// Redirect component for dashboard based on user role
 const DashboardRedirect = () => {
   const { user } = useAuth();
   const role = user?.userType || user?.user_type;
@@ -55,6 +65,7 @@ const DashboardRedirect = () => {
   return <Navigate to="/dashboard/customer" replace />;
 };
 
+// Main App component with routing
 function App() {
   return (
     <Router>
@@ -62,11 +73,14 @@ function App() {
         <Header />
         <main className="app-main">
           <Routes>
+            {/* Public routes */}
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/chefs" element={<ChefSearch />} />
             <Route path="/chef/:chefId" element={<ChefProfile />} />
+
+            {/* Protected dashboard routes */}
             <Route
               path="/dashboard"
               element={

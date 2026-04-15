@@ -3,6 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { bookingAPI } from '../services/api';
 import './Payment.css';
 
+// Payment page simulates booking checkout.
+// It confirms the booking is approved and then calls the backend pay endpoint.
+// In a real product, this page would connect to a payment gateway.
+
+
 const Payment = () => {
   const { bookingId } = useParams();
   const navigate = useNavigate();
@@ -48,6 +53,7 @@ const Payment = () => {
     event.preventDefault();
     setError('');
 
+    // Ensure the booking exists and is in a state that allows payment.
     if (!booking) {
       setError('Booking not found');
       return;

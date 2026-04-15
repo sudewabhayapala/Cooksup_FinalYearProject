@@ -1,9 +1,11 @@
 const db = require('../config/database');
 
+// ChefProfile model class for managing chef profile data and operations
 class ChefProfile {
+  // Create a new chef profile for a user
   static async create(userId, profileData = {}) {
     const sql = `
-      INSERT INTO chef_profiles (user_id, bio, specialties, experience_years, 
+      INSERT INTO chef_profiles (user_id, bio, specialties, experience_years,
         hourly_rate, min_spend, cuisine_types, certifications, is_available)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -21,6 +23,7 @@ class ChefProfile {
     return result.insertId;
   }
 
+  // Find chef profile by user ID, including user details and recent reviews
   static async findByUserId(userId) {
     const sql = `
       SELECT cp.*, u.first_name, u.last_name, u.email, u.phone, u.location
@@ -32,7 +35,7 @@ class ChefProfile {
     const chef = results[0];
     if (!chef) return null;
 
-    // Attach recent reviews
+    // Attach recent reviews with customer details and booking info
     const reviewSql = `
       SELECT r.id, r.rating, r.food_quality, r.professionalism, r.value_for_money,
         r.comment, r.response, r.created_at,
@@ -49,6 +52,7 @@ class ChefProfile {
     return chef;
   }
 
+  // Find chef profile by profile ID
   static async findById(id) {
     const sql = `
       SELECT cp.*, u.first_name, u.last_name, u.email, u.phone, u.location
@@ -60,6 +64,7 @@ class ChefProfile {
     return results[0];
   }
 
+  // Search chefs with various filters and ranking
   static async search(filters = {}) {
     let sql = `
       SELECT cp.*, u.first_name, u.last_name, u.location,
@@ -80,11 +85,13 @@ class ChefProfile {
     `;
     const params = [];
 
+    // Apply location filter
     if (filters.location) {
       sql += ' AND u.location LIKE ?';
       params.push(`%${filters.location}%`);
     }
 
+    // Apply general search query across multiple fields
     if (filters.query) {
       sql += ' AND (u.first_name LIKE ? OR u.last_name LIKE ? OR CONCAT(u.first_name, " ", u.last_name) LIKE ? OR cp.specialties LIKE ? OR cp.cuisine_types LIKE ?)';
       params.push(
@@ -96,33 +103,39 @@ class ChefProfile {
       );
     }
 
+    // Apply cuisine type filter
     if (filters.cuisine) {
       sql += ' AND cp.cuisine_types LIKE ?';
       params.push(`%${filters.cuisine}%`);
     }
 
+    // Apply minimum rating filter
     if (filters.minRating) {
       sql += ' AND cp.average_rating >= ?';
       params.push(filters.minRating);
     }
 
+    // Apply maximum price filter
     if (filters.maxPrice) {
       sql += ' AND cp.hourly_rate <= ?';
       params.push(filters.maxPrice);
     }
 
+    // Filter for featured chefs only
     if (filters.featured) {
       sql += ' AND cp.featured = true';
     }
 
     sql += ' GROUP BY cp.id, u.id';
 
+    // Apply guest count filter using HAVING clause
     const parsedGuestCount = Number(filters.guestCount);
     if (Number.isFinite(parsedGuestCount) && parsedGuestCount > 0) {
       sql += ' HAVING (COALESCE(MAX(b.guest_count), 0) >= ? OR COUNT(DISTINCT b.id) = 0)';
       params.push(parsedGuestCount);
     }
 
+    // Apply sorting based on filter criteria
     if (filters.sortBy === 'popular') {
       sql += ' ORDER BY booking_count DESC, cp.average_rating DESC';
     } else if (filters.sortBy === 'points') {
@@ -137,6 +150,7 @@ class ChefProfile {
       sql += ' ORDER BY cp.featured DESC, cp.average_rating DESC';
     }
 
+    // Apply pagination
     const limit = filters.limit || 20;
     const offset = filters.offset || 0;
     sql += ' LIMIT ? OFFSET ?';
@@ -145,10 +159,12 @@ class ChefProfile {
     return await db.query(sql, params);
   }
 
+  // Update chef profile information
   static async update(userId, data) {
     const fields = [];
     const values = [];
 
+    // Map frontend field names to database column names
     const fieldMap = {
       bio: 'bio',
       specialties: 'specialties',
@@ -164,6 +180,7 @@ class ChefProfile {
       celebrityClients: 'celebrity_clients'
     };
 
+    // Build dynamic update query based on provided fields
     Object.keys(data).forEach(key => {
       if (data[key] !== undefined && fieldMap[key]) {
         fields.push(`${fieldMap[key]} = ?`);
@@ -179,12 +196,13 @@ class ChefProfile {
     return true;
   }
 
+  // Update chef's average rating based on all reviews
   static async updateRating(chefId) {
     const sql = `
-      UPDATE chef_profiles 
+      UPDATE chef_profiles
       SET average_rating = (
-        SELECT COALESCE(AVG(rating), 0) 
-        FROM reviews 
+        SELECT COALESCE(AVG(rating), 0)
+        FROM reviews
         WHERE chef_id = ?
       )
       WHERE user_id = ?
@@ -192,9 +210,10 @@ class ChefProfile {
     await db.query(sql, [chefId, chefId]);
   }
 
+  // Get dashboard statistics for a chef
   static async getDashboardStats(chefId) {
     const statsSQL = `
-      SELECT 
+      SELECT
         (SELECT COUNT(*) FROM bookings WHERE chef_id = ? AND status != 'cancelled') as total_bookings,
         (SELECT COUNT(*) FROM bookings WHERE chef_id = ? AND status = 'pending') as pending_bookings,
         (SELECT COUNT(*) FROM bookings WHERE chef_id = ? AND status = 'completed') as completed_bookings,

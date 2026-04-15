@@ -8,25 +8,28 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure storage
+// Configure disk storage for uploaded files
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    // Determine upload directory based on type (profile, cover, general, etc.)
     const type = req.body.type || 'general';
     const dir = path.join(uploadDir, type);
-    
+
+    // Create directory if it doesn't exist
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    
+
     cb(null, dir);
   },
   filename: (req, file, cb) => {
+    // Generate unique filename with timestamp and random number
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
-// File filter
+// File filter to only allow image files
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -39,7 +42,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Create multer upload instance
+// Create multer upload instance with configuration
 const upload = multer({
   storage: storage,
   limits: {

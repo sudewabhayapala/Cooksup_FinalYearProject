@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
+// AuthContext manages authentication state across the frontend.
+// It stores JWT token and user profile in localStorage,
+// provides register/login/logout functions, and keeps axios headers updated.
 const AuthContext = createContext();
 const API_URL = 'http://localhost:5000/api';
 
@@ -33,6 +36,8 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const register = async (email, password, firstName, lastName, phone, userType, location, postalCode, level2CertificationNumber) => {
+    // Registration sends user details to the backend auth endpoint.
+    // The backend creates a new user and returns a JWT token plus profile data.
     setIsLoading(true);
     setError(null);
     try {
@@ -65,6 +70,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
+    // Login authenticates the user and stores the token for future API calls.
     setIsLoading(true);
     setError(null);
     try {
@@ -90,6 +96,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = useCallback(() => {
+    // Clear local authentication state and remove the JWT token.
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
@@ -98,6 +105,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const getCurrentUser = useCallback(async () => {
+    // Fetch fresh user profile from the backend using stored JWT.
+
     try {
       const response = await axios.get(`${API_URL}/auth/profile`);
       setUser(response.data);

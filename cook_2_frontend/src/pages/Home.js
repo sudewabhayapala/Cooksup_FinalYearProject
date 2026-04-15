@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import { chefAPI, reviewAPI } from '../services/api';
 import './Home.css';
 
+// Home page displays the landing experience for new visitors.
+// It fetches featured chefs and recent reviews from the backend.
+// It also handles scroll-based reveal animations for the homepage sections.
+
+
 const Home = () => {
   const [featuredChefs, setFeaturedChefs] = useState([]);
   const [recentReviews, setRecentReviews] = useState([]);

@@ -5,10 +5,13 @@ import { useAuth } from '../context/AuthContext';
 import { toImageUrl } from '../utils/imageUrl';
 import './ChefProfile.css';
 
+// Main component for displaying a chef's profile page
 const ChefProfile = () => {
+  // Extract chefId from URL parameters
   const { chefId } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
+  // State for chef data, loading, and UI toggles
   const [chef, setChef] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -16,7 +19,10 @@ const ChefProfile = () => {
   const [contactLocation, setContactLocation] = useState('');
   const [contactDate, setContactDate] = useState('');
 
+  // Determine user role for access control
   const role = user?.userType || user?.user_type;
+
+  // Fetch chef profile data from API
   const fetchChefProfile = useCallback(async () => {
     try {
       setLoading(true);
@@ -29,15 +35,18 @@ const ChefProfile = () => {
     }
   }, [chefId]);
 
+  // Load chef data on component mount or chefId change
   useEffect(() => {
     fetchChefProfile();
   }, [fetchChefProfile]);
 
+  // Set initial contact location from chef data
   useEffect(() => {
     if (!chef) return;
     setContactLocation(chef.location || '');
   }, [chef]);
 
+  // Handle booking button click with authentication and role checks
   const handleBookClick = () => {
     if (!isAuthenticated) {
       navigate('/login');
@@ -52,11 +61,13 @@ const ChefProfile = () => {
     setShowBookingForm(true);
   };
 
+  // Memoized full name for performance
   const fullName = useMemo(
     () => `${chef?.first_name || ''} ${chef?.last_name || ''}`.trim() || 'Chef',
     [chef]
   );
 
+  // Extract and format chef stats
   const averageRating = Number(chef?.average_rating ?? chef?.rating ?? 0);
   const reviewCount = Number(chef?.review_count ?? chef?.total_reviews ?? 0);
   const eventsCount = Number(chef?.total_bookings ?? chef?.booking_count ?? 0);
@@ -64,10 +75,12 @@ const ChefProfile = () => {
   const hourlyRate = chef?.hourly_rate;
   const minSpend = chef?.min_spend;
 
+  // Handle bio text display
   const aboutText = chef?.bio || 'Private chef available for bespoke dining experiences.';
   const longBio = aboutText.length > 280;
   const visibleBio = showFullBio || !longBio ? aboutText : `${aboutText.slice(0, 280)}...`;
 
+  // Generate unique profile tags from chef data
   const profileTags = useMemo(() => {
     const source = [chef?.specialties, chef?.cuisine_types, chef?.certifications]
       .filter(Boolean)
@@ -81,11 +94,13 @@ const ChefProfile = () => {
     return Array.from(new Set(tags)).slice(0, 6);
   }, [chef]);
 
+  // Format money values for display
   const formatMoney = (value) => {
     if (value === null || value === undefined || value === '') return null;
     return `$${Number(value).toFixed(0)}`;
   };
 
+  // Loading and error states
   if (loading) return <div className="loading">Loading...</div>;
   if (!chef) return <div className="error">Chef not found</div>;
 
@@ -93,6 +108,7 @@ const ChefProfile = () => {
     <div className="chef-profile-page">
       <div className="chef-profile-layout">
         <div className="chef-profile-main">
+          {/* Chef summary section with avatar and basic info */}
           <section className="chef-summary-card">
             <div className="chef-summary-avatar-wrap">
               {chef.profile_image ? (
@@ -122,13 +138,14 @@ const ChefProfile = () => {
                   {hourlyRate ? `From ${formatMoney(hourlyRate)}pp` : 'Price on request'}
                   {minSpend ? ` / Min spend ${formatMoney(minSpend)}` : ''}
                 </p>
-                <p>{eventsCount} yhungry events</p>
+                {/* <p>{eventsCount} yhungry events</p> */}
                 <p>{experienceYears} years experience</p>
               </div>
 
             </div>
           </section>
 
+          {/* About section with bio and tags */}
           <section className="chef-about-card">
             <h2>About chef</h2>
 
@@ -148,6 +165,7 @@ const ChefProfile = () => {
             )}
           </section>
 
+          {/* Reviews section */}
           <section className="reviews-card">
             <h2>Chef reviews</h2>
             {chef.recentReviews && chef.recentReviews.length > 0 ? (
@@ -192,6 +210,7 @@ const ChefProfile = () => {
           </section>
         </div>
 
+        {/* Contact sidebar for booking */}
         <aside className="chef-contact-card">
           <span className="booking-chip">{eventsCount > 0 ? `${eventsCount} looking to book` : 'Open for booking'}</span>
           <h3>Message chef to create your dream menu</h3>
@@ -216,12 +235,13 @@ const ChefProfile = () => {
           </div>
 
           <button type="button" className="message-btn" onClick={handleBookClick}>
-            Message chef
+            Book Chef
           </button>
           <p className="booking-note">You will not be charged yet</p>
         </aside>
       </div>
 
+      {/* Booking form modal */}
       {showBookingForm && (
         <BookingForm
           chefId={chefId}

@@ -1,6 +1,8 @@
 const db = require('../config/database');
 
+// User model class for managing user accounts and authentication
 class User {
+  // Create a new user account
   static async create({ email, password, firstName, lastName, phone, userType, location, profileImage }) {
     const sql = `
       INSERT INTO users (email, password, first_name, last_name, phone, user_type, location, profile_image)
@@ -10,22 +12,26 @@ class User {
     return result.insertId;
   }
 
+  // Find user by email address (used for login)
   static async findByEmail(email) {
     const sql = 'SELECT * FROM users WHERE email = ?';
     const results = await db.query(sql, [email]);
     return results[0];
   }
 
+  // Find user by ID
   static async findById(id) {
     const sql = 'SELECT * FROM users WHERE id = ?';
     const results = await db.query(sql, [id]);
     return results[0];
   }
 
+  // Update user profile information
   static async update(id, data) {
     const fields = [];
     const values = [];
 
+    // Build dynamic update query based on provided fields
     Object.keys(data).forEach(key => {
       if (data[key] !== undefined) {
         fields.push(`${key} = ?`);

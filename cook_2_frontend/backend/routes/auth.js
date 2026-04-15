@@ -10,6 +10,7 @@ const { auth } = require('../middleware/auth');
 const router = express.Router();
 const passwordResetTokens = new Map();
 
+// Helper function to format location string from location and postal code
 const formatLocation = (location, postalCode) => {
   const baseLocation = (location || '').trim();
   const cleanPostalCode = (postalCode || '').trim().toUpperCase();
@@ -29,7 +30,7 @@ const formatLocation = (location, postalCode) => {
   return `${baseLocation}, ${cleanPostalCode}`;
 };
 
-// Register
+// User registration endpoint with validation
 router.post('/register', [
   body('email')
     .trim()
@@ -144,7 +145,7 @@ router.post('/register', [
   }
 });
 
-// Forgot password
+// Forgot password endpoint - generates reset token
 router.post('/forgot-password', [
   body('email')
     .trim()
@@ -190,7 +191,7 @@ router.post('/forgot-password', [
   }
 });
 
-// Reset password
+// Reset password endpoint - uses token to update password
 router.post('/reset-password', [
   body('token')
     .trim()
@@ -229,7 +230,7 @@ router.post('/reset-password', [
   }
 });
 
-// Login
+// User login endpoint with validation
 router.post('/login', [
   body('email')
     .trim()
@@ -290,7 +291,7 @@ router.post('/login', [
   }
 });
 
-// Get profile
+// Get user profile endpoint (requires authentication)
 router.get('/profile', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -327,7 +328,7 @@ router.get('/profile', auth, async (req, res) => {
   }
 });
 
-// Update profile
+// Update user profile endpoint (requires authentication)
 router.put('/profile', auth, async (req, res) => {
   try {
     const {

@@ -1,6 +1,8 @@
 const db = require('../config/database');
 
+// Booking model class for database operations
 class Booking {
+  // Create a new booking record in the database
   static async create(bookingData) {
     const sql = `
       INSERT INTO bookings (customer_id, chef_id, menu_id, event_date, event_time,
@@ -23,9 +25,10 @@ class Booking {
     return result.insertId;
   }
 
+  // Find a booking by its ID, including related user and menu data
   static async findById(id) {
     const sql = `
-      SELECT b.*, 
+      SELECT b.*,
         u1.first_name as customer_first_name, u1.last_name as customer_last_name, u1.email as customer_email,
         u2.first_name as chef_first_name, u2.last_name as chef_last_name, u2.email as chef_email,
         m.title as menu_title, m.price_per_person
@@ -39,10 +42,11 @@ class Booking {
     return results[0];
   }
 
+  // Find all bookings for a specific user (chef or customer)
   static async findByUserId(userId, userType) {
     const column = userType === 'chef' ? 'chef_id' : 'customer_id';
     const sql = `
-      SELECT b.*, 
+      SELECT b.*,
         u1.first_name as customer_first_name, u1.last_name as customer_last_name,
         u2.first_name as chef_first_name, u2.last_name as chef_last_name,
         m.title as menu_title
@@ -56,6 +60,7 @@ class Booking {
     return await db.query(sql, [userId]);
   }
 
+  // Update the status of a booking (only by the assigned chef or customer)
   static async updateStatus(id, status, userId, userType) {
     const column = userType === 'chef' ? 'chef_id' : 'customer_id';
     const sql = `UPDATE bookings SET status = ? WHERE id = ? AND ${column} = ?`;
@@ -63,6 +68,7 @@ class Booking {
     return result.affectedRows > 0;
   }
 
+  // Update the payment status of a booking
   static async updatePaymentStatus(id, customerId, paymentStatus) {
     const sql = `
       UPDATE bookings
@@ -73,19 +79,21 @@ class Booking {
     return result.affectedRows > 0;
   }
 
+  // Cancel a booking and record the reason
   static async cancel(id, userId, reason) {
     const sql = `
-      UPDATE bookings 
-      SET status = 'cancelled', cancellation_reason = ? 
+      UPDATE bookings
+      SET status = 'cancelled', cancellation_reason = ?
       WHERE id = ? AND (customer_id = ? OR chef_id = ?)
     `;
     const result = await db.query(sql, [reason, id, userId, userId]);
     return result.affectedRows > 0;
   }
 
+  // Get upcoming bookings for a chef
   static async getUpcoming(chefId, limit = 5) {
     const sql = `
-      SELECT b.*, 
+      SELECT b.*,
         u.first_name as customer_first_name, u.last_name as customer_last_name,
         m.title as menu_title
       FROM bookings b

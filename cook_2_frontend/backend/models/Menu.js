@@ -1,6 +1,8 @@
 const db = require('../config/database');
 
+// Menu model class for managing chef menu offerings
 class Menu {
+  // Create a new menu item for a chef
   static async create(menuData) {
     const sql = `
       INSERT INTO menus (chef_id, title, description, cuisine_type, category,
@@ -23,21 +25,25 @@ class Menu {
     return result.insertId;
   }
 
+  // Find all active menus for a specific chef
   static async findByChefId(chefId) {
     const sql = 'SELECT * FROM menus WHERE chef_id = ? AND is_active = true ORDER BY created_at DESC';
     return await db.query(sql, [chefId]);
   }
 
+  // Find a menu by its ID
   static async findById(id) {
     const sql = 'SELECT * FROM menus WHERE id = ?';
     const results = await db.query(sql, [id]);
     return results[0];
   }
 
+  // Update menu information (only by the menu's chef)
   static async update(id, chefId, data) {
     const fields = [];
     const values = [];
 
+    // Map frontend field names to database column names
     const fieldMap = {
       title: 'title',
       description: 'description',
@@ -52,6 +58,7 @@ class Menu {
       isActive: 'is_active'
     };
 
+    // Build dynamic update query based on provided fields
     Object.keys(data).forEach(key => {
       if (data[key] !== undefined && fieldMap[key]) {
         fields.push(`${fieldMap[key]} = ?`);
@@ -67,6 +74,7 @@ class Menu {
     return true;
   }
 
+  // Soft delete a menu (mark as inactive instead of removing)
   static async delete(id, chefId) {
     const sql = 'UPDATE menus SET is_active = false WHERE id = ? AND chef_id = ?';
     await db.query(sql, [id, chefId]);

@@ -1,6 +1,8 @@
+// Global error handling middleware for Express.js
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
 
+  // Handle Mongoose validation errors
   if (err.name === 'ValidationError') {
     return res.status(400).json({
       error: 'Validation Error',
@@ -8,6 +10,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
+  // Handle MySQL duplicate entry errors
   if (err.code === 'ER_DUP_ENTRY') {
     return res.status(400).json({
       error: 'Duplicate entry',
@@ -15,12 +18,14 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
+  // Handle JWT token errors
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
       error: 'Invalid token'
     });
   }
 
+  // Default error response
   res.status(err.status || 500).json({
     error: err.message || 'Internal server error'
   });

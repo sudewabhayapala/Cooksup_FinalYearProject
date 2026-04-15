@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { bookingAPI, chefAPI, reviewAPI } from '../services/api';
+import { bookingAPI, chefAPI } from '../services/api';
 import './Dashboard.css';
+// Dashboard routes users to the correct view for their role.
+// ChefDashboard shows chef metrics, booking management, and booking action buttons.
+// ClientDashboard shows customer bookings, booking details, and navigation for payment.
 
 const Dashboard = () => {
   const { user } = useAuth();
